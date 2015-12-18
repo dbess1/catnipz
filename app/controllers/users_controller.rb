@@ -47,6 +47,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
+  end
+
+#---------------------------private-----------------#---------------------
+
   private
 
     def user_params
@@ -54,8 +61,10 @@ class UsersController < ApplicationController
                                    :password_confirmation)
     end
 
+#I remove this block, because I put it in the application_controller
+#Michael Hartl suggested removing this after adding it in Listing 11.31
     # Before filters
-
+=begin
     # Confirms a logged-in user.
     def logged_in_user
       unless logged_in?
@@ -64,7 +73,8 @@ class UsersController < ApplicationController
         redirect_to login_url
       end
     end
-    
+=end
+
     # Confirms the correct user.
     def correct_user
       @user = User.find(params[:id])
